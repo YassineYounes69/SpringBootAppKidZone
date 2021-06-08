@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Parent Register</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+    <style>
+            .error {color:red}
+    </style>
+</h:head>
+<h:body style="padding-top: 60px">
+    <h:outputScript library="holder" name="holder.js" />
+    <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+        <b:navbarLinks>
+            <b:navLink value="Home" href="#"></b:navLink>
+            <b:dropMenu value="Register">
+                <h:form>
+                    <h:commandLink value="Parent" action="/pages/parentRegister.xhtml?faces-redirect=true" />
+                </h:form>
+                <b:navLink value="Childcare Center" href="#"></b:navLink>
+            </b:dropMenu>
+            <b:navLink value="Register" href="#about"></b:navLink>
+            <b:navLink value="About" href="#about"></b:navLink>
+            <b:navLink value="Contact" href="#contact"></b:navLink>
+        </b:navbarLinks>
+    </b:navBar>
+    <b:container>
+
+
+
+        <h:form styleClass="form-signin" prependId="false" value="#{parentController.parent}" var="parent">
+            <h2 class="form-signin-heading">Please register</h2>
+            <b:inputText id="fname" placeholder="First Name" value="#{parentController.parent.fName}" required="true">
+                <f:facet name="prepend">
+                    <b:icon name="glyphicon-ok" />
+                </f:facet>
+                <f:validateRegex pattern="[a-zA-Z]+"/>
+            </b:inputText>
+            <h:message for="fname" styleClass="error"></h:message>
+            <b:inputText id="lname" placeholder="Last Name" value="#{parentController.parent.lName}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+                <f:validateRegex pattern="[a-zA-Z]+"/>
+            </b:inputText>
+            <h:message for="lname" styleClass="error"></h:message>
+            <b:inputText id="email" placeholder="Email" value="#{parentController.parent.email}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+            </b:inputText>
+            <h:message for="email" styleClass="error"></h:message>
+            <b:inputText id="Telephone" placeholder="Telephone" type="number" maxlength="8" value="#{parentController.parent.pTel}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+                <f:validateLongRange maximum="99999999" minimum="10000000" />
+            </b:inputText>
+            <h:message for="Telephone" styleClass="error"></h:message><br></br>
+            <div class="p-col">
+                <p:password id="password1" placeholder="Password" match="password2" type="password" value="#{parentController.parent.pw}" required="true"/>
+            </div>
+            <h:message for="password1" styleClass="error"></h:message><br></br>
+            <div class="p-col">
+                <p:password id="password2" placeholder="Password" type="password" required="true" />
+            </div>
+
+            <h:message for="password2" styleClass="error"></h:message><br></br>
+
+            <b:commandButton look="primary btn-block" value="Register" icon="log-in" size="lg" action="#{parentController.addParent}" />
+
+        </h:form>
+
+    </b:container>
+
+
+</h:body>
+</html>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Child Care Center Register</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+    <style>
+            .error {color:red}
+    </style>
+</h:head>
+<h:body onload="if((document.getElementById('input_password1').value!==document.getElementById('input_password').value)||document.getElementById('input_password1').value ==''){document.getElementById('submit').disabled = true;console.log('okkkkkkkkk');}else{document.getElementById('submit').disabled = false;document.getElementById('error').hidden = true;document.getElementById('error').value ='';}" style="padding-top: 60px">
+    <h:outputScript library="holder" name="holder.js" />
+    <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+        <b:navbarLinks>
+            <b:navLink value="Home" href="#"></b:navLink>
+            <b:dropMenu value="Register">
+                <h:form>
+                    <h:commandLink value="Parent" action="/pages/parentRegister.xhtml?faces-redirect=true" />
+                </h:form>
+                <b:navLink value="Childcare Center" href="#"></b:navLink>
+            </b:dropMenu>
+            <b:navLink value="Register" href="#about"></b:navLink>
+            <b:navLink value="About" href="#about"></b:navLink>
+            <b:navLink value="Contact" href="#contact"></b:navLink>
+        </b:navbarLinks>
+    </b:navBar>
+    <b:container>
+
+
+
+        <h:form styleClass="form-signin" prependId="false" >
+            <h2 class="form-signin-heading">Please register</h2>
+            <h3>Director Information : </h3>
+            <b:inputText id="fname" placeholder="First Name" value="#{employeeController.employee.fName}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-child" />
+                </f:facet>
+                <f:validateRegex pattern="[a-zA-Z]+"/>
+            </b:inputText>
+            <h:message for="fname" styleClass="error"></h:message>
+            <b:inputText id="lname" placeholder="Last Name" value="#{employeeController.employee.lName}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-child" />
+                </f:facet>
+                <f:validateRegex pattern="[a-zA-Z]+"/>
+            </b:inputText>
+            <h:message for="lname" styleClass="error"></h:message>
+            <b:inputText id="email" placeholder="Email" value="#{employeeController.employee.email}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-envelope" />
+                </f:facet>
+                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+            </b:inputText>
+            <h:message for="email" styleClass="error"></h:message>
+            <b:inputText id="Telephone" placeholder="Telephone" type="number" maxlength="8" value="#{employeeController.employee.eTel}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="phone" />
+                </f:facet>
+                <f:validateLongRange maximum="99999999" minimum="10000000" />
+            </b:inputText>
+            <h:message for="Telephone" styleClass="error"></h:message><br></br>
+
+            <b:inputSecret id="password" placeholder="Password"  value="#{employeeController.employee.pw}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+            </b:inputSecret>
+
+            <b:inputSecret id="password1" placeholder="Confirm Password"  required="true" onkeyup="if(document.getElementById('input_password1').value!==document.getElementById('input_password').value){document.getElementById('submit').disabled = true;document.getElementById('error').hidden = false;console.log('okkkkkkkkk');}else{document.getElementById('submit').disabled = false;document.getElementById('error').hidden = true;document.getElementById('error').value ='';}">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+            </b:inputSecret>
+            <h4 id="error" hidden="hidden" style="color: firebrick" >passwords not matching</h4>
+
+            <b:commandButton  id="submit" look="primary btn-block"  value="Register" icon="log-in" size="lg" action="#{employeeController.addOwner}" />
+            <b:row >
+            <br/>
+
+
+            </b:row>
+        </h:form>
+        <b:modal title="Login" style="font-size: x-large; text-align: center ;" styleClass="loginform"
+                 closable="true"
+                 closeOnEscape="true">
+            <h:form styleClass="form-signin" prependId="false">
+                <b:inputText id="emaillog" placeholder="Email" value="#{sessionController.login}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="fa-envelope" />
+                    </f:facet>
+                </b:inputText>
+                <b:inputSecret id="pwlog" placeholder="Password" value="#{sessionController.pw}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputSecret>
+                <b:commandButton id="submitt" look="primary btn-block" value="Login" icon="log-in" size="lg" action="#{sessionController.logInEmp}" />
+            </h:form>
+        </b:modal>
+    </b:container>
+
+
+</h:body>
+</html>

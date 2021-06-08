@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Theme Template for BootsFaces</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+
+
+</h:head>
+<h:body style="padding-top: 60px">
+    <h:outputScript library="holder" name="holder.js" />
+    <c:if test="#{sessionController.status == true}">
+        <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Home" href="#"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
+    </c:if>
+    <c:if test="#{sessionController.status == false}">
+        <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+        <b:navbarLinks>
+            <b:navLink value="Home" href="#"></b:navLink>
+            <b:dropMenu value="Register">
+                <h:form >
+                    <h:commandLink value="Parent" action="/pages/parentRegister.xhtml?faces-redirect=true" />
+                </h:form>
+                <b:navLink value="Childcare Center" href="#"></b:navLink>
+            </b:dropMenu>
+            <b:navLink>
+            <b:form>
+                <b:commandLink onclick="$('.formValidationModalClass').modal('show')"><h4>Login</h4></b:commandLink>
+            </b:form>
+            </b:navLink>
+        </b:navbarLinks>
+    </b:navBar>
+    </c:if>
+    <b:container>
+        <br></br>
+        <c:if test="#{sessionController.status == true}">
+            Online as #{sessionController.parent.fName} #{sessionController.parent.lName}
+        </c:if>
+        <c:if test="#{sessionController.status == false}">
+            Not Online <br></br>
+        </c:if>
+        <c:if test="#{sessionController.status == true}">
+        <p:commandButton icon="bars" type="button" onclick="PF('sidebar1').show()" styleClass="p-mr-2" />
+        </c:if>
+        <b:modal title="Login" styleClass="formValidationModalClass"
+                 closable="false"
+                 closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <b:inputText id="email" placeholder="Email address" value="#{sessionController.login}">
+                <f:facet name="prepend">
+                    <b:icon name="glyphicon-ok" />
+                </f:facet>
+            </b:inputText>
+            <b:inputText id="password" placeholder="Password" type="password" value="#{sessionController.pw}">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="key" />
+                </f:facet>
+            </b:inputText>
+            <b:commandButton look="primary btn-block" value="Sign In" icon="log-in" size="lg" action="#{sessionController.logIn}"/>
+        </h:form>
+        </b:modal>
+    </b:container>
+    <p:sidebar widgetVar="sidebar1" baseZIndex="10000">
+        <h3>User Menu</h3>
+        <b:form>
+            <b:commandLink action="/pages/manageParentAccount.xhtml?faces-redirect=true"><h4>Manage Account</h4></b:commandLink>
+        </b:form>
+        <b:form>
+            <b:commandLink action="#{sessionController.logOut}"><h4>Manage Children</h4></b:commandLink>
+        </b:form>
+        <b:form>
+            <b:commandLink action="#{sessionController.logOut}"><h4>Search for Childcare Centers</h4></b:commandLink>
+        </b:form>
+        <b:form>
+            <b:commandLink action="#{sessionController.logOut}"><h4>Messages</h4></b:commandLink>
+        </b:form>
+        <b:form>
+            <b:commandLink action="#{sessionController.logOut}"><h4>Log Out</h4></b:commandLink>
+        </b:form>
+    </p:sidebar>
+    <b:container>
+        <h1>General Account Settings</h1>
+        <hr></hr>
+        <div class="card">
+            <h5>Personal Information</h5>
+            <p:panelGrid columns="3" layout="grid" styleClass="showcase-text-align-center">
+                <h:outputText value="First name"/>
+                <h:outputText value="#{parent.fName}"/>
+                <h:outputText style="text-align: right"><b:form>
+                <b:commandLink onclick="$('.nameModal').modal('show')"><i>Edit</i></b:commandLink>
+                </b:form></h:outputText>
+
+                <h:outputText value="Email"/>
+                <h:outputText value="#{sessionController.parent.email}"/>
+                <h:outputText><b:form>
+                    <b:commandLink onclick="$('.emailModal').modal('show')"><i>Edit</i></b:commandLink>
+                </b:form></h:outputText>
+
+                <h:outputText value="Password"/>
+                <h:outputText value=""/>
+                <h:outputText><b:form>
+                    <b:commandLink onclick="$('.pwModal').modal('show')"><i>Edit</i></b:commandLink>
+                </b:form></h:outputText>
+
+                <h:outputText value="Phone Number"/>
+                <h:outputText value="#{sessionController.parent.pTel}"/>
+                <h:outputText><b:form>
+                    <b:commandLink onclick="$('.pnModal').modal('show')"><i>Edit</i></b:commandLink>
+                </b:form></h:outputText>
+            </p:panelGrid>
+        </div>
+    </b:container>
+    <b:modal title="Edit first name" styleClass="nameModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="fName" placeholder="First Name" value="#{parent.fName}">
+            </b:inputText>
+            <h:inputHidden value="#{parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentFName(parent)}" />
+
+        </h:form>
+    </b:modal>
+    <b:modal title="Edit email" styleClass="emailModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="email" placeholder="Email" value="#{sessionController.parent.email}">
+            </b:inputText>
+            <b:commandButton look="primary btn-block" value="Edit" icon="log-in" size="lg" />
+        </h:form>
+    </b:modal>
+    <b:modal title="Edit password" styleClass="pwModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="pw" placeholder="Password" value="#{sessionController.parent.pw}">
+            </b:inputText>
+            <b:commandButton look="primary btn-block" value="Edit" icon="log-in" size="lg" />
+        </h:form>
+    </b:modal>
+    <b:modal title="Edit phone number" styleClass="pnModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="pn" placeholder="Phone Number" value="#{sessionController.parent.pTel}">
+            </b:inputText>
+            <b:commandButton look="primary btn-block" value="Edit" icon="log-in" size="lg" />
+        </h:form>
+    </b:modal>
+</h:body>
+</html>

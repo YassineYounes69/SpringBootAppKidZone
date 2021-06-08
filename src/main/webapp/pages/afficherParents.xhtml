@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                xmlns:h="http://java.sun.com/jsf/html"
+
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jsp/jstl/core"
+
+                template="/templates/template.xhtml">
+
+<ui:param name="page_name" value="ajouter Contrat" />
+
+<ui:define name="content">
+
+<h:panelGroup columns="2">
+
+<h:dataTable value="#{parentController.parents}" var="parent" border="1">
+
+<h:column><f:facet name="header"><h:outputText value="Parent Name :" /></f:facet>
+<h:outputText value="#{parent.fName} #{parent.fName}" /></h:column>
+<h:column><f:facet name="header"><h:outputText value="Email" /></f:facet>
+<h:outputText value="#{parent.email}" /></h:column>
+<h:column><f:facet name="header"><h:outputText value="Phone Tel :" /></f:facet>
+<h:outputText value="#{parent.pTel}" /></h:column>
+
+
+        <c:if test="#{parent.accStatus == 1}">
+            <h:column><f:facet name="header"><h:outputText value="Status" /></f:facet>
+                <h:outputText value="Active" /></h:column>
+        </c:if>
+        <c:otherwise>
+    <h:column><f:facet name="header"><h:outputText value="Status" /></f:facet>
+        <h:outputText value="Disabled" /></h:column>
+    </c:otherwise>
+
+</h:dataTable>
+
+</h:panelGroup>
+
+<br/>
+
+</ui:define>
+
+</ui:composition>

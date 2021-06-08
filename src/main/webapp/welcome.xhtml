@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Theme Template for BootsFaces</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+
+</h:head>
+<h:body style="padding-top: 60px">
+
+    <h:outputScript library="holder" name="holder.js" />
+    <c:if test="#{sessionController.status == true}">
+        <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Home" href="#"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
+    </c:if>
+    <c:if test="#{sessionController.status == false}">
+        <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink value="Home" href="http://localhost:8080/index"></b:navLink>
+                <b:dropMenu value="Register">
+                    <h:form >
+                        <h:commandLink value="Parent" action="/pages/parentRegister.xhtml?faces-redirect=true" />
+                    </h:form>
+                    <h:form >
+                        <h:commandLink value="Childcare Center" action="/pages/childCareCenterRegister.xhtml?faces-redirect=true" />
+                    </h:form>
+                </b:dropMenu>
+                <b:dropMenu value="Login">
+                    <b:form>
+                        <b:commandLink onclick="$('.formValidationModalClass').modal('show')"><h4>Login as parent</h4></b:commandLink>
+                    </b:form>
+                    <b:form>
+                        <b:commandLink onclick="$('.loginformEmp').modal('show')"><h4>Login as childcare center</h4></b:commandLink>
+                    </b:form>
+                </b:dropMenu>
+            </b:navbarLinks>
+        </b:navBar>
+    </c:if>
+    <b:container>
+        <br></br>
+
+        <c:if test="#{sessionController.status == true}">
+            Online as #{sessionController.parent.fName} #{sessionController.parent.lName}
+        </c:if>
+        <c:if test="#{sessionController.status == false}">
+            Not Online <br></br>
+        </c:if>
+        <c:if test="#{sessionController.status == true}">
+            <p:commandButton icon="bars" type="button" onclick="PF('sidebar1').show()" styleClass="p-mr-2" />
+        </c:if>
+        <b:modal title="Login" style="font-size: x-large; text-align: center ;" styleClass="loginformEmp"
+                 closable="true"
+                 closeOnEscape="true">
+            <h:form styleClass="form-signin" prependId="false">
+                <b:inputText id="emaillog" placeholder="Email" value="#{sessionController.login}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="fa-envelope" />
+                    </f:facet>
+                </b:inputText>
+                <b:inputSecret id="pwlog" placeholder="Password" value="#{sessionController.pw}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputSecret>
+                <b:commandButton id="submitt" look="primary btn-block" value="Login" icon="log-in" size="lg" action="#{sessionController.logInEmp}" />
+            </h:form>
+        </b:modal>
+        <b:modal title="Login" styleClass="formValidationModalClass"
+                 closable="false"
+                 closeOnEscape="true">
+            <h:form styleClass="form-signin" prependId="false" id="loginForm">
+                <b:growl id="loginFailedGrowl" ></b:growl>
+
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <b:inputText id="email" placeholder="Email address" value="#{sessionController.login}">
+                    <f:facet name="prepend">
+                        <b:icon name="glyphicon-ok" />
+                    </f:facet>
+                </b:inputText>
+                <b:inputText id="password" placeholder="Password" type="password" value="#{sessionController.pw}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputText>
+
+                <b:commandButton look="primary btn-block" value="Sign In" icon="log-in" size="lg" action="#{sessionController.logIn}"/>
+            </h:form>
+            <b:form>
+                <b:commandLink onclick="$('.resetModal').modal('show')"> <h4>Reset Password</h4></b:commandLink>
+            </b:form>
+        </b:modal>
+        <b:modal title="Rest password" styleClass="resetModal"
+                 closable="false"
+                 closeOnEscape="true">
+            <h:form styleClass="form-signin" prependId="false" id="pwResetForm">
+
+
+                <h2 class="form-signin-heading">Please enter your email</h2>
+                <b:inputText id="emailReset" placeholder="Email address" value="#{sessionController.login}">
+                    <f:facet name="prepend">
+                        <b:icon name="glyphicon-ok" />
+                    </f:facet>
+                </b:inputText> <br></br><br></br><br></br><br></br>
+                <b:commandButton look="primary btn-block" value="Reset Password" icon="log-in" size="lg" action="#{parentController.resetPassword(sessionController.login)}"/>
+            </h:form>
+        </b:modal>
+    </b:container>
+
+    <b:container>
+        <p:sidebar widgetVar="sidebar1" baseZIndex="10000">
+            <h3>User Menu</h3>
+
+            <b:form>
+                <b:commandLink action="#{parentController.loadParent(sessionController.parent.id)}"><h4>Manage Account</h4></b:commandLink>
+            </b:form>
+            <b:panel title="Manage Children">
+                <b:form>
+                    <b:commandLink action="#{parentController.loadAddChildren}"><h4>Add a Child</h4></b:commandLink>
+                </b:form>
+                <b:form>
+                    <b:commandLink action="#{parentController.loadChildren}"><h4>Consult Children</h4></b:commandLink>
+                </b:form>
+            </b:panel>
+
+            <b:form>
+                <b:commandLink action="#{parentController.loadSearchCcc}"><h4>Search for Childcare Centers</h4></b:commandLink>
+            </b:form>
+            <b:form>
+                <b:commandLink action="#{sessionController.logOut}"><h4>Log Out</h4></b:commandLink>
+            </b:form>
+        </p:sidebar>
+
+    </b:container>
+</h:body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Child Care Center Register</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+    <style>
+            .error {color:red}
+    </style>
+</h:head>
+<h:body style="padding-top: 60px">
+    <h:outputScript library="holder" name="holder.js" />
+    <b:navBar brand="Kidzone" brandHref="#" fixed="top" inverse="true">
+        <b:navbarLinks>
+            <b:navLink value="Home" href="#"></b:navLink>
+            <b:dropMenu value="Register">
+                <h:form>
+                    <h:commandLink value="Parent" action="/pages/childCareCenterRegister.xhtml?faces-redirect=true" />
+                </h:form>
+                <b:navLink value="Childcare Center" href="#"></b:navLink>
+            </b:dropMenu>
+            <b:navLink value="Register" href="#about"></b:navLink>
+            <b:navLink value="About" href="#about"></b:navLink>
+            <b:navLink value="Contact" href="#contact"></b:navLink>
+        </b:navbarLinks>
+    </b:navBar>
+    <b:container>
+
+
+
+        <h:form styleClass="form-signin" prependId="false" >
+            <h2 class="form-signin-heading">Please register</h2>
+            <h3>Enter your Child care center information : </h3>
+
+            <b:inputText id="name" placeholder="Name" value="#{childCareCenterController.childCareCenter.name}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-child" />
+                </f:facet>
+                <f:validateRegex pattern="[a-zA-Z]+"/>
+            </b:inputText>
+            <h:message for="name" styleClass="error"></h:message>
+            <b:inputText id="description" placeholder="Description" value="#{childCareCenterController.childCareCenter.descr}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-child" />
+                </f:facet>
+            </b:inputText>
+            <h:message for="description" styleClass="error"></h:message>
+            <b:inputText id="adress" placeholder="Adress" value="#{childCareCenterController.childCareCenter.mail}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="fa-envelope" />
+                </f:facet>
+            </b:inputText>
+            <h:message for="adress" styleClass="error"></h:message>
+            <b:inputText id="cost" placeholder="Cost" type="number" maxlength="8" value="#{childCareCenterController.childCareCenter.cost}" required="true">
+                <f:facet name="prepend">
+                    <b:iconAwesome name="phone" />
+                </f:facet>
+
+            </b:inputText>
+            <h:message for="cost" styleClass="error"></h:message><br></br>
+
+
+            <b:commandButton  id="submit" look="primary btn-block"  value="Register" icon="log-in" size="lg" action="#{childCareCenterController.addChildCareCenter}" />
+        </h:form>
+
+    </b:container>
+
+
+</h:body>
+</html>

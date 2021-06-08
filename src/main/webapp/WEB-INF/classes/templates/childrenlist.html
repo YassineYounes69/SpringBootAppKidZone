@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Children List</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>
+                id
+            </th>
+            <th>
+                age
+            </th>
+            <th>
+                first name
+            </th>
+            <th>
+                last name
+            </th>
+            <th>
+                parent ID
+            </th>
+        </tr>
+        <tr th:each="child : ${children}">
+            <td th:text="${child.id}"></td>
+            <td th:text="${child.age}"></td>
+            <td th:text="${child.fName}"></td>
+            <td th:text="${child.lName}"></td>
+            <td th:text="${child.parent.fName}"></td>
+        </tr>
+    </table>
+</body>
+</html>

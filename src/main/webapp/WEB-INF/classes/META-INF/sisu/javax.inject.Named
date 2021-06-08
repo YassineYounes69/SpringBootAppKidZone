@@ -1,0 +1,3 @@
+com.example.kidszonea4arctic3.models.Picture
+com.example.kidszonea4arctic3.repositories.PictureRepository
+com.example.kidszonea4arctic3.services.PictureService

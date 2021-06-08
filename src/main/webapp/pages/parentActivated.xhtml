@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Theme Template for BootsFaces</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+
+</h:head>
+<h:body style="padding-top: 60px">
+    <b:container>
+        <b:jumbotron>
+            #{parentController.parentActivate(param['id'])}
+            <h1>Your Account Has Been Activated !</h1>
+            <p>Welcome to Kidszone, where your can track your kids and their childcare centers. Click <b:form>
+                <b:commandLink onclick="$('.formValidationModalClass').modal('show')"><h4>Here</h4></b:commandLink>
+            </b:form> to login.</p>
+        </b:jumbotron>
+        <b:modal title="Login" styleClass="formValidationModalClass"
+                 closable="false"
+                 closeOnEscape="true">
+            <h:form styleClass="form-signin" prependId="false">
+                <h2 class="form-signin-heading">Please sign in</h2>
+                <b:inputText id="email" placeholder="Email address" value="#{sessionController.login}">
+                    <f:facet name="prepend">
+                        <b:icon name="glyphicon-ok" />
+                    </f:facet>
+                </b:inputText>
+                <b:inputText id="password" placeholder="Password" type="password" value="#{sessionController.pw}">
+                    <f:facet name="prepend">
+                        <b:iconAwesome name="key" />
+                    </f:facet>
+                </b:inputText>
+                <b:commandButton look="primary btn-block" value="Sign In" icon="log-in" size="lg" action="#{sessionController.logIn}"/>
+            </h:form>
+        </b:modal>
+    </b:container>
+</h:body>
+</html>

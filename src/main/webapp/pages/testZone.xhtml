@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>File upload page</title>
+
+
+</h:head>
+<h:body>
+
+    <h:form enctype="multipart/form-data"  prependId="false" id="upload-form">
+        <h:message style="color:yellow;" />
+        <table  width="750px;" align="center">
+            <tr><td colspan="2"><h2><h:outputText value ="h:inputFile"></h:outputText></h2></td></tr>
+
+            <tr> <td colspan="2"></td> </tr>
+            <tr>
+
+                <td>
+                    <h:inputFile  id="file-id"
+                                  value="#{uploadFileBean.uploadedFile}"
+                                  required="true"
+                                  requiredMessage="Please upload a file"
+                                  alt="upload file"
+                                  style="font-size: 30px;">
+                    </h:inputFile>
+
+                </td>
+
+                <td>
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <h:commandButton value="Upload file"
+                                     type="submit"
+                                     action="#{uploadFileBean.saveFile}"
+                                     style="color: red;font-size: 30px;"></h:commandButton>
+                </td>
+
+            </tr>
+
+        </table>
+
+
+
+    </h:form>
+</h:body>
+</html>

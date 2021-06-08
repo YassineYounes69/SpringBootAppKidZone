@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Modify Parent page</title>
+
+
+</h:head>
+<h:body>
+ #{sessionController.parent.fName}
+    #{sessionController.parent.id}
+    <b:commandLink onclick="$('.nameModal').modal('show')"><i>Edit</i></b:commandLink>
+    <b:modal title="Edit first name" styleClass="nameModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="fName" placeholder="#{sessionController.parent.fName}" value="#{parentController.parent.fName}">
+            </b:inputText>
+            <h:inputHidden value="#{sessionController.parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentFName(sessionController.parent.id,parentController.parent.fName)}" />
+
+        </h:form>
+    </b:modal>
+    <br></br>
+
+    <br></br>
+    #{sessionController.parent.lName}
+    <b:commandLink onclick="$('.lnameModal').modal('show')"><i>Edit</i></b:commandLink>
+    <b:modal title="Edit first name" styleClass="lnameModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="lName" placeholder="#{sessionController.parent.lName}" value="#{parentController.parent.lName}">
+            </b:inputText>
+            <h:inputHidden value="#{sessionController.parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentLName(sessionController.parent.id,parentController.parent.lName)}" />
+
+        </h:form>
+    </b:modal>
+    <br></br>
+
+    <br></br>
+
+    #{sessionController.parent.email}
+    <b:commandLink onclick="$('.emailModal').modal('show')"><i>Edit</i></b:commandLink>
+    <b:modal title="Edit first name" styleClass="emailModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="email" placeholder="#{sessionController.parent.email}" value="#{parentController.parent.email}">
+            </b:inputText>
+            <h:inputHidden value="#{sessionController.parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentEmail(sessionController.parent.id,parentController.parent.email)}" />
+
+        </h:form>
+    </b:modal>
+    <br></br>
+
+    <br></br>
+
+    #{sessionController.parent.pTel}
+    <b:commandLink onclick="$('.pTelModal').modal('show')"><i>Edit</i></b:commandLink>
+    <b:modal title="Edit first name" styleClass="pTelModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="pTel" placeholder="#{sessionController.parent.pTel}" value="#{parentController.parent.pTel}">
+            </b:inputText>
+            <h:inputHidden value="#{sessionController.parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentPTel(sessionController.parent.id,parentController.parent.pTel)}" />
+
+        </h:form>
+    </b:modal>
+    <br></br>
+
+    <br></br>
+
+    #{sessionController.parent.pw}
+    <b:commandLink onclick="$('.pwModal').modal('show')"><i>Edit</i></b:commandLink>
+    <b:modal title="Edit first name" styleClass="pwModal"
+             closable="false"
+             closeOnEscape="true">
+        <h:form styleClass="form-signin" prependId="false">
+            <b:inputText id="pw" placeholder="password" value="#{parentController.parent.pw}">
+            </b:inputText>
+            <h:inputHidden value="#{sessionController.parent.id}"></h:inputHidden>
+            <h:commandLink value="edit" action="#{parentController.updateParentpw(sessionController.parent.id,parentController.parent.pw)}" />
+
+        </h:form>
+    </b:modal>
+    <br></br>
+
+    <br></br>
+
+</h:body>
+</html>

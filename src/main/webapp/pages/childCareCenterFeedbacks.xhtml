@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Dashboard Template for BootsFaces</title>
+    <meta name="author" content="Riccardo Massera"></meta>
+
+</h:head>
+<h:body style="padding-top: 60px"  >
+    <p:remoteCommand autoRun="true" action="#{employeeController.checkAuthetication}"></p:remoteCommand>
+    <h:outputScript library="holder" name="holder.js" />
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.5.2/holder.min.js"></script-->
+    <b:navBar brand="#{sessionController.childCareCenter.name}" brandHref="#" inverse="true" fixed="top" fluid="true">
+
+        <b:navbarLinks pull="right">
+            <b:navLink value="Profile" href="/pages/ProfilOwner.jsf"></b:navLink>
+        </b:navbarLinks>
+        <h:form styleClass="navbar-form navbar-right">
+            <div class="form-group">
+                <b:inputText placeholder="Search..." fieldSize="sm"/>
+            </div>
+        </h:form>
+    </b:navBar>
+    <b:container fluid="true">
+
+        <b:row>
+            <b:column col-sm="3" col-md="2" styleClass="sidebar">
+                <b:listLinks>
+                    <b:navLink href="/pages/childCareCenterDashboard.jsf" value="Dashboard" />
+                    <b:navLink href="/pages/addEmploye.jsf" value="Add employe" />
+                    <b:navLink href="/pages/editChildCareCenter.jsf" value="My child care center" />
+                    <b:navLink href="/pages/childCareCenterFeedbacks.jsf" value="Feedback and Suggestions" active="true"/>
+                    <b:navLink href="#{sessionController.logOut}" value="Logout" />
+                </b:listLinks>
+            </b:column>
+            <b:column col-sm="9" offset-sm="3" col-md="10" offset="2" styleClass="main">
+                <h1>Dashboard</h1>
+
+                <hr/>
+                <h3>Feedbacks :</h3>
+                <b:row styleClass="table-responsive">
+                    <b:dataTable value="#{sessionController.feedbacksArrayList}"
+                                 var="feedback"
+                                 onpage="console.log('page');">
+                        <b:dataTableColumn value="#{feedback.title}" label="Title"/>
+                        <b:dataTableColumn label="Parent">
+                            #{feedback.parent.fName} #{feedback.parent.lName}
+                        </b:dataTableColumn>
+                        <b:dataTableColumn value="#{feedback.creationDate}" label="Date sent"/>
+                        <b:dataTableColumn   label="Status" >
+                            <b:label text="#{feedback.status}" severity="warning" style="font-size: medium" rendered="#{feedback.status == 'in progress'}"/>
+                            <b:label text="#{feedback.status}" severity="success" style="font-size: medium"  rendered="#{feedback.status == 'resolved'}"/>
+                            <b:label text="#{feedback.status}" severity="danger" style="font-size: medium"  rendered="#{feedback.status == 'denied'}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn label="Actions">
+                            <b:panelGrid size="xs"  columns="2"  rendered="#{feedback.status == 'in progress'}">
+                                <b:commandLink value="Reply"  look="warning" icon="reply"  onclick = "$('.r#{feedback.id}').modal('show')" />
+                                <h:form styleClass="form-group" prependId="false">
+                                <b:commandButton  id="deny" look="danger" value="Deny" icon="remove"   action="#{feedbackController.denyFeedback(feedback)}" />
+                                </h:form>
+                            </b:panelGrid>
+                            <b:commandLink value="Consult"  look="info" icon="edit" rendered="#{feedback.status != 'in progress'}" onclick = "$('.#{feedback.id}').modal('show')" />
+                            <b:modal title="#{feedback.title}" styleClass="r#{feedback.id}"
+                                     closable="true"
+                                     closeOnEscape="true">
+                                <h:form styleClass="form-signin" prependId="false">
+                                    <b:row>
+                                        <h3 style="margin-left: 15px;color: #0066cc;">Parent contact:</h3>
+                                        <p style="font-size: small; margin-left: 20px">Email: #{feedback.parent.email}</p>
+                                        <p style="font-size: small; margin-left: 20px; margin-top: 5px">Phone: #{feedback.parent.pTel}</p>
+                                        <hr/>
+                                        <h3 style="margin-left: 15px;color: #0066cc;">Description:</h3>
+                                        <p style="font-size: small; margin: 20px">#{feedback.descr}</p>
+                                        <hr/>
+                                    <b:inputTextarea span="12" style="width:500px; text-align: center; margin:20px;" rows="7" placeholder="Reply" value="#{feedback.reply }">
+                                    </b:inputTextarea>
+                                    <b:commandButton span="12"  id="submit" look="warning" value="Reply" icon="edit" size="lg" action="#{feedbackController.replyToFeedback(feedback)}" />
+                                    </b:row>
+                                </h:form>
+                            </b:modal>
+
+                            <b:modal title="#{feedback.title}"  styleClass="#{feedback.id}"
+                                     closable="true"
+                                     closeOnEscape="true">
+                                <b:row>
+                                    <h2 style="margin-left: 15px;color: #0066cc;">Parent contact:</h2>
+                                    <p style="font-size: small; margin-left: 20px">Email: #{feedback.parent.email}</p>
+                                    <p style="font-size: small; margin-left: 20px; margin-top: 5px">Phone: #{feedback.parent.pTel}</p>
+                                    <h2 style="margin-left: 15px;color: #0066cc;">Description:</h2>
+                                    <p style="font-size: medium; margin: 20px">#{feedback.descr}</p>
+                                    <h2 style="margin-left: 15px;color: #0066cc;">Reply:</h2>
+                                    <p style="font-size: medium; margin: 20px">#{feedback.reply}</p>
+                                    <b:label style="font-size: medium; margin: 20px" text="#{feedback.status}" severity="danger" rendered="#{feedback.status == 'denied'}"/>
+                                </b:row>
+                            </b:modal>
+                        </b:dataTableColumn>
+
+
+                    </b:dataTable>
+                </b:row>
+            </b:column>
+        </b:row>
+    </b:container>
+    <style type="text/css">
+        .sub-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .navbar-fixed-top {
+            border: 0 none;
+        }
+        .sidebar {
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .sidebar {
+                background-color: #f5f5f5;
+                border-right: 1px solid #eee;
+                bottom: 0;
+                display: block;
+                left: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                padding: 20px;
+                position: fixed;
+                top: 51px;
+                z-index: 1000;
+            }
+        }
+        .nav-list {
+            margin-bottom: 20px;
+            margin-left: -20px;
+            margin-right: -21px;
+        }
+        .nav-list > li > a {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .nav-list > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+            background-color: #428bca;
+            color: #fff;
+        }
+        .main {
+            padding: 20px;
+        }
+        @media (min-width: 768px) {
+            .main {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+        .main .page-header {
+            margin-top: 0;
+        }
+        .placeholders {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .placeholders h4 {
+            margin-bottom: 0;
+        }
+        .placeholder {
+            margin-bottom: 20px;
+        }
+        .placeholder img {
+            border-radius: 50%;
+            display: inline-block;
+        }
+    </style>
+</h:body>
+</html>
